@@ -1,0 +1,52 @@
+{
+ "_comment": "Starting master records, from BRD V1.0 and KRL's paper formats. Each list is loaded only when its master is empty, so after that KRL owns it and nothing is brought back.",
+ "HSE Severity Level": [
+  {"severity_label": "Severity I", "level": 1, "harm": "Very Low", "rectify_within_days": 3, "rectify_immediately": 0,
+   "definition": "Untidy or non-standard",
+   "action_required": "Bear the risk as it is, with continuous monitoring (opportunity for improvement)",
+   "rectification_condition": "If more time is needed it must be informed with genuine reasons",
+   "requires_capa": 0, "requires_investigation": 0, "stops_work": 0, "share_with_all_branches": 0},
+  {"severity_label": "Severity II", "level": 2, "harm": "Low", "rectify_within_days": 3, "rectify_immediately": 0,
+   "definition": "Untidy and restricts access",
+   "action_required": "Control risk: bear the risk with control measures in place",
+   "rectification_condition": "If more time is needed it must be informed with genuine reasons",
+   "requires_capa": 0, "requires_investigation": 0, "stops_work": 0, "share_with_all_branches": 0},
+  {"severity_label": "Severity III", "level": 3, "harm": "Moderate", "rectify_within_days": 2, "rectify_immediately": 0,
+   "definition": "Violation which may cause injury: rules, procedure or PPE",
+   "action_required": "Reduce risk: undesirable, reduce to low or very low",
+   "rectification_condition": "If more time is needed it must be informed with genuine reasons; CAPA is mandatory",
+   "requires_capa": 1, "requires_investigation": 1, "stops_work": 0, "share_with_all_branches": 0},
+  {"severity_label": "Severity IV", "level": 4, "harm": "High", "rectify_within_days": 0, "rectify_immediately": 1,
+   "definition": "Unsafe act or conditions, serious injury potential, stop work",
+   "action_required": "Stop the activity, reduce risk to low or very low, then restart the activity",
+   "rectification_condition": "Work is stopped until rectification is done; CAPA is mandatory",
+   "requires_capa": 1, "requires_investigation": 1, "stops_work": 1, "share_with_all_branches": 1},
+  {"severity_label": "Severity V", "level": 5, "harm": "Critical", "rectify_within_days": 0, "rectify_immediately": 1,
+   "definition": "DANGER: immediate injury potential, stop work",
+   "action_required": "Stop all work, reduce risk to low or very low, then restart all work",
+   "rectification_condition": "Work is stopped until rectification is done; CAPA is mandatory",
+   "requires_capa": 1, "requires_investigation": 1, "stops_work": 1, "share_with_all_branches": 1}
+ ],
+ "HSE Worker Category": [
+  {"category_name": "EL", "description": "As used on the KRL Work Place Area Division form"},
+  {"category_name": "SL", "description": "As used on the KRL Work Place Area Division form"},
+  {"category_name": "Worker", "description": "As used on the KRL Work Place Area Division form"}
+ ],
+ "HSE Area Team Role": [
+  {"role_name": "Team Lead", "is_leader": 1},
+  {"role_name": "Member 1", "is_leader": 0},
+  {"role_name": "Member 2", "is_leader": 0}
+ ],
+ "HSE Contact Role": [
+  {"role_name": "Branch Head", "party": "KRL"},
+  {"role_name": "Operations Head", "party": "KRL"},
+  {"role_name": "HSE Head", "party": "KRL"},
+  {"role_name": "HR Head", "party": "KRL"},
+  {"role_name": "Maintenance Head", "party": "KRL"},
+  {"role_name": "Accounts Head", "party": "KRL"},
+  {"role_name": "Project Head", "party": "KRL"},
+  {"role_name": "Client Representative", "party": "Client"},
+  {"role_name": "Client HSE Representative", "party": "Client"},
+  {"role_name": "Client HR Representative", "party": "Client"}
+ ]
+}

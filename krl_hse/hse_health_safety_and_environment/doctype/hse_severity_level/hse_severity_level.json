@@ -1,0 +1,215 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "severity_label",
+  "level",
+  "harm",
+  "column_break_1",
+  "rectify_within_days",
+  "rectify_immediately",
+  "definitions_section",
+  "definition",
+  "action_required",
+  "rectification_condition",
+  "rules_section",
+  "requires_capa",
+  "requires_investigation",
+  "column_break_2",
+  "stops_work",
+  "share_with_all_branches"
+ ],
+ "fields": [
+  {
+   "fieldname": "severity_label",
+   "fieldtype": "Data",
+   "label": "Severity",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "The name people use, for example Severity III"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Int",
+   "label": "Level Number",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "Used to compare levels. A higher number is more severe."
+  },
+  {
+   "fieldname": "harm",
+   "fieldtype": "Data",
+   "label": "Harm",
+   "in_list_view": 1,
+   "description": "For example Very Low or Critical"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rectify_within_days",
+   "fieldtype": "Int",
+   "label": "Rectify Within (Days)",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rectify_immediately",
+   "fieldtype": "Check",
+   "label": "Rectify Immediately"
+  },
+  {
+   "fieldname": "definitions_section",
+   "fieldtype": "Section Break",
+   "label": "Definition and Action"
+  },
+  {
+   "fieldname": "definition",
+   "fieldtype": "Small Text",
+   "label": "Definition on the KRL Format"
+  },
+  {
+   "fieldname": "action_required",
+   "fieldtype": "Small Text",
+   "label": "Action Required"
+  },
+  {
+   "fieldname": "rectification_condition",
+   "fieldtype": "Small Text",
+   "label": "Condition"
+  },
+  {
+   "fieldname": "rules_section",
+   "fieldtype": "Section Break",
+   "label": "What This Level Triggers"
+  },
+  {
+   "fieldname": "requires_capa",
+   "fieldtype": "Check",
+   "label": "CAPA Is Mandatory"
+  },
+  {
+   "fieldname": "requires_investigation",
+   "fieldtype": "Check",
+   "label": "Investigation Is Mandatory"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "stops_work",
+   "fieldtype": "Check",
+   "label": "Work Is Stopped Until Rectified"
+  },
+  {
+   "fieldname": "share_with_all_branches",
+   "fieldtype": "Check",
+   "label": "Share With All Branches"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Severity Level",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "HSE Head",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1
+  },
+  {
+   "role": "HO HSE Team",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  },
+  {
+   "role": "Director",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Branch HSE Head",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "HSE Officer",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "HSE Supervisor",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Branch Head",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Branch Department Head",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Site Supervisor",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Store In-charge",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Employee",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  }
+ ],
+ "sort_field": "level",
+ "sort_order": "ASC",
+ "states": [],
+ "autoname": "field:severity_label",
+ "allow_rename": 1,
+ "naming_rule": "By fieldname",
+ "title_field": "severity_label"
+}

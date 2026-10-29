@@ -49,6 +49,7 @@ def after_migrate():
 def ensure_setup():
 	create_custom_fields(BRANCH_FIELDS, update=True)
 	ensure_roles()
+	seed_masters()
 	ensure_settings_defaults()
 	frappe.db.commit()
 
@@ -71,6 +72,20 @@ def ensure_roles():
 				"is_custom": 1,
 			}
 		).insert(ignore_permissions=True)
+
+
+def seed_masters():
+	"""Load the starting records of a master, but only while that master is empty.
+
+	After that the records belong to KRL: a record it edits or deletes is not touched again.
+	"""
+	for doctype, records in _load("masters.json").items():
+		if doctype.startswith("_") or not frappe.db.exists("DocType", doctype):
+			continue
+		if frappe.db.count(doctype):
+			continue
+		for record in records:
+			frappe.get_doc({"doctype": doctype, **record}).insert(ignore_permissions=True)
 
 
 def ensure_settings_defaults():
