@@ -1,0 +1,155 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "numbering_section",
+  "document_prefix",
+  "sequence_digits",
+  "column_break_numbering",
+  "fy_start_month",
+  "fy_label_format",
+  "default_number_format",
+  "codes_section",
+  "document_codes",
+  "access_section",
+  "access_help",
+  "all_branch_roles",
+  "defaults_loaded",
+  "seeded_doctypes"
+ ],
+ "fields": [
+  {
+   "fieldname": "numbering_section",
+   "fieldtype": "Section Break",
+   "label": "Document Numbering"
+  },
+  {
+   "fieldname": "document_prefix",
+   "fieldtype": "Data",
+   "label": "Company Prefix",
+   "reqd": 1,
+   "default": "KRL",
+   "description": "First part of every HSE document number"
+  },
+  {
+   "fieldname": "sequence_digits",
+   "fieldtype": "Int",
+   "label": "Digits in Running Number",
+   "reqd": 1,
+   "default": "4"
+  },
+  {
+   "fieldname": "column_break_numbering",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fy_start_month",
+   "fieldtype": "Select",
+   "label": "Financial Year Starts In",
+   "options": "January\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+   "reqd": 1,
+   "default": "April"
+  },
+  {
+   "fieldname": "fy_label_format",
+   "fieldtype": "Select",
+   "label": "Financial Year Label",
+   "reqd": 1,
+   "default": "2026-27",
+   "options": "2026-27\n26-27\n2026-2027"
+  },
+  {
+   "fieldname": "default_number_format",
+   "fieldtype": "Data",
+   "label": "Default Number Format",
+   "reqd": 1,
+   "default": "{prefix}/{doc_code}/{branch}/{fy}/{seq}",
+   "description": "Tokens: {prefix} {doc_code} {branch} {fy} {job} {seq}. A document type can have its own format in the table below."
+  },
+  {
+   "fieldname": "codes_section",
+   "fieldtype": "Section Break",
+   "label": "Document Codes"
+  },
+  {
+   "fieldname": "document_codes",
+   "fieldtype": "Table",
+   "label": "Document Codes",
+   "options": "HSE Document Code"
+  },
+  {
+   "fieldname": "access_section",
+   "fieldtype": "Section Break",
+   "label": "Branch Access"
+  },
+  {
+   "fieldname": "access_help",
+   "fieldtype": "HTML",
+   "label": "Branch Access Note",
+   "options": "<p class='text-muted'>Users who hold one of these roles see the records of every branch. Everyone else sees only the branches given to them under User Permissions.</p>"
+  },
+  {
+   "fieldname": "all_branch_roles",
+   "fieldtype": "Table",
+   "label": "Roles That See All Branches",
+   "options": "HSE All Branch Role"
+  },
+  {
+   "fieldname": "defaults_loaded",
+   "fieldtype": "Check",
+   "label": "Defaults Loaded",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "seeded_doctypes",
+   "fieldtype": "Small Text",
+   "label": "Seeded Document Types",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  },
+  {
+   "role": "HSE Head",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "HO HSE Team",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Director",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "issingle": 1
+}

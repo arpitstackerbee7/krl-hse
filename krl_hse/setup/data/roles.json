@@ -1,0 +1,15 @@
+{
+ "_comment": "System roles from BRD V1.0 section 14.1. Loaded on install and migrate; an existing role is never changed. Rename or add roles from the Desk; this file only supplies the starting set.",
+ "roles": [
+  {"role_name": "Director", "all_branches": 1, "handbook_position": "Board of Directors"},
+  {"role_name": "HSE Head", "all_branches": 1, "handbook_position": "HSE Department I/c (EL 1-4)"},
+  {"role_name": "HO HSE Team", "all_branches": 1, "handbook_position": "HSE Department (HO)"},
+  {"role_name": "Branch HSE Head", "all_branches": 0, "handbook_position": "Branch HSE Department I/c (EL 5-6, SL 1)"},
+  {"role_name": "HSE Officer", "all_branches": 0, "handbook_position": "HSE Officer (SL 1)"},
+  {"role_name": "HSE Supervisor", "all_branches": 0, "handbook_position": "HSE Executive / Supervisor (SL 2-3)"},
+  {"role_name": "Branch Head", "all_branches": 0, "handbook_position": "Branch I/c (EL 1-5)"},
+  {"role_name": "Branch Department Head", "all_branches": 0, "handbook_position": "Branch O&M, HR, Accounts / Inventory, Maintenance heads"},
+  {"role_name": "Site Supervisor", "all_branches": 0, "handbook_position": "Supervisor, Shift I/c (SL 1-3)"},
+  {"role_name": "Store In-charge", "all_branches": 0, "handbook_position": "Branch Store I/c"}
+ ]
+}

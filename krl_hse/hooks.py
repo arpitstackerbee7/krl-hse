@@ -96,7 +96,8 @@ app_license = "custom"
 # ------------
 
 # before_install = "krl_hse.install.before_install"
-# after_install = "krl_hse.install.after_install"
+after_install = "krl_hse.setup.install.after_install"
+after_migrate = "krl_hse.setup.install.after_migrate"
 
 # Uninstallation
 # ------------
@@ -154,7 +155,11 @@ app_license = "custom"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
+doc_events = {
+	"Branch": {"validate": "krl_hse.utils.branch.validate_branch"},
+}
+
+# doc_events_example = {
 # 	"*": {
 # 		"on_update": "method",
 # 		"on_cancel": "method",

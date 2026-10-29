@@ -1,0 +1,51 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reference_doctype",
+  "document_code",
+  "number_format"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Document Type",
+   "options": "DocType",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 3
+  },
+  {
+   "fieldname": "document_code",
+   "fieldtype": "Data",
+   "label": "Document Code",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "For example WPSA"
+  },
+  {
+   "fieldname": "number_format",
+   "fieldtype": "Data",
+   "label": "Number Format",
+   "in_list_view": 1,
+   "columns": 5,
+   "description": "Leave empty to use the default format"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Document Code",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1
+}

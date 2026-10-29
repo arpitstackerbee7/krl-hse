@@ -1,0 +1,7 @@
+{
+ "_comment": "Starting document codes for HSE Settings, one set per phase. Loaded once when the doctype is first set up; after that KRL owns the table. Codes follow the KRL formats in the BRD.",
+ "phase_1": [
+  {"reference_doctype": "HSE Work Order", "document_code": "WO", "number_format": ""},
+  {"reference_doctype": "HSE Workplace Area", "document_code": "WPAD", "number_format": ""}
+ ]
+}
