@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.model.document import Document
 
 from krl_hse.utils.numbering import make_document_number
@@ -25,3 +26,21 @@ class HSEDocument(Document):
 		if self.number_job_field and self.get(self.number_job_field):
 			job = frappe.db.get_value("HSE Work Order", self.get(self.number_job_field), "job_code")
 		self.name = make_document_number(self.doctype, self.branch, job=job, on_date=on_date)
+
+	def before_save(self):
+		self.check_send_back_recommendations()
+
+	def check_send_back_recommendations(self):
+		"""The approver must say why a record is sent back (BRD 6.9.1: sent back with recommendations).
+
+		The name of the sent-back state is a setting, so renaming the state in the workflow only
+		needs the setting changed.
+		"""
+		if not self.meta.has_field("recommendations") or not self.meta.has_field("workflow_state"):
+			return
+
+		sent_back = frappe.get_cached_doc("HSE Settings").sent_back_state
+		if sent_back and self.workflow_state == sent_back and not (self.recommendations or "").strip():
+			frappe.throw(
+				_("Give the recommendations before sending this back."), title=_("Recommendations needed")
+			)

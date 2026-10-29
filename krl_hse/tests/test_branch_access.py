@@ -138,7 +138,7 @@ class TestRolePermissions(IntegrationTestCase):
 	"""One test user per role. Each sees and does exactly what the setup allows on Phase 1 records."""
 
 	# role: (read, create, edit) on HSE Work Order and HSE Workplace Area
-	EXPECTED = {
+	EXPECTED = {  # noqa: RUF012
 		"Director": (True, False, False),
 		"HSE Head": (True, True, True),
 		"HO HSE Team": (True, True, True),

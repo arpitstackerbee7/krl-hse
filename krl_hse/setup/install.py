@@ -51,6 +51,7 @@ def ensure_setup():
 	ensure_roles()
 	seed_masters()
 	ensure_settings_defaults()
+	ensure_workflows()
 	frappe.db.commit()
 
 
@@ -88,6 +89,57 @@ def seed_masters():
 			frappe.get_doc({"doctype": doctype, **record}).insert(ignore_permissions=True)
 
 
+def ensure_workflows():
+	"""Create the starting approval workflows that do not exist yet. Existing ones are left alone."""
+	for entry in _load("workflows.json")["workflows"]:
+		name = entry["workflow_name"]
+		if frappe.db.exists("Workflow", name) or not frappe.db.exists("DocType", entry["document_type"]):
+			continue
+
+		for state in entry["states"]:
+			if not frappe.db.exists("Workflow State", state["state"]):
+				frappe.get_doc(
+					{
+						"doctype": "Workflow State",
+						"workflow_state_name": state["state"],
+						"style": state.get("style", ""),
+					}
+				).insert(ignore_permissions=True)
+
+		for transition in entry["transitions"]:
+			if not frappe.db.exists("Workflow Action Master", transition["action"]):
+				frappe.get_doc(
+					{"doctype": "Workflow Action Master", "workflow_action_name": transition["action"]}
+				).insert(ignore_permissions=True)
+
+		doc = frappe.get_doc(
+			{
+				"doctype": "Workflow",
+				"workflow_name": name,
+				"document_type": entry["document_type"],
+				"is_active": 1,
+				"workflow_state_field": "workflow_state",
+				"states": [
+					{"state": s["state"], "doc_status": s["doc_status"], "allow_edit": role}
+					for s in entry["states"]
+					for role in s["allow_edit"]
+				],
+				"transitions": [
+					{
+						"state": t["state"],
+						"action": t["action"],
+						"next_state": t["next_state"],
+						"allowed": role,
+						"allow_self_approval": t.get("allow_self_approval", 1),
+					}
+					for t in entry["transitions"]
+					for role in t["allowed"]
+				],
+			}
+		)
+		doc.insert(ignore_permissions=True)
+
+
 def ensure_settings_defaults():
 	"""Fill HSE Settings with the starting values.
 
@@ -122,4 +174,22 @@ def ensure_settings_defaults():
 
 	if changed:
 		settings.seeded_doctypes = "\n".join(sorted(seeded))
+
+	changed = fill_missing_defaults(settings) or changed
+
+	if changed:
 		settings.save(ignore_permissions=True)
+
+
+def fill_missing_defaults(settings):
+	"""Give a required setting its default if it is still empty.
+
+	A Single does not receive the default of a field added after it was first saved. Only
+	required settings are filled, because those cannot be left empty by KRL on purpose.
+	"""
+	changed = False
+	for df in settings.meta.fields:
+		if df.default and df.reqd and not settings.get(df.fieldname):
+			settings.set(df.fieldname, df.default)
+			changed = True
+	return changed

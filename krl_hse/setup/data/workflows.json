@@ -1,0 +1,29 @@
+{
+ "_comment": "Starting approval workflows, one per document type. Created only if no workflow of that name exists, so changes KRL makes in the Desk are kept. Each transition row gives one role.",
+ "workflows": [
+  {
+   "workflow_name": "HSE Workplace Area Approval",
+   "document_type": "HSE Workplace Area",
+   "states": [
+    {"state": "Draft", "style": "Warning", "doc_status": "0",
+     "allow_edit": ["Branch HSE Head", "HSE Officer", "HSE Head", "HO HSE Team", "System Manager"]},
+    {"state": "Pending Approval", "style": "Info", "doc_status": "0",
+     "allow_edit": ["Branch Head", "HSE Head", "System Manager"]},
+    {"state": "Approved", "style": "Success", "doc_status": "0",
+     "allow_edit": ["Branch HSE Head", "Branch Head", "HSE Head", "System Manager"]},
+    {"state": "Sent Back", "style": "Danger", "doc_status": "0",
+     "allow_edit": ["Branch HSE Head", "HSE Officer", "HSE Head", "HO HSE Team", "System Manager"]}
+   ],
+   "transitions": [
+    {"state": "Draft", "action": "Submit for Approval", "next_state": "Pending Approval",
+     "allowed": ["Branch HSE Head", "HSE Officer", "HSE Head", "HO HSE Team"]},
+    {"state": "Sent Back", "action": "Submit for Approval", "next_state": "Pending Approval",
+     "allowed": ["Branch HSE Head", "HSE Officer", "HSE Head", "HO HSE Team"]},
+    {"state": "Pending Approval", "action": "Approve", "next_state": "Approved",
+     "allowed": ["Branch Head", "HSE Head"], "allow_self_approval": 0},
+    {"state": "Pending Approval", "action": "Send Back", "next_state": "Sent Back",
+     "allowed": ["Branch Head", "HSE Head"], "allow_self_approval": 0}
+   ]
+  }
+ ]
+}

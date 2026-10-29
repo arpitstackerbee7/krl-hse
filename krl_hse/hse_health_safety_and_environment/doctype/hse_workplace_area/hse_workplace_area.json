@@ -14,7 +14,10 @@
   "details_section",
   "location_details",
   "team_section",
-  "team"
+  "team",
+  "approval_section",
+  "recommendations",
+  "workflow_state"
  ],
  "fields": [
   {
@@ -85,6 +88,27 @@
    "fieldtype": "Table",
    "label": "Team",
    "options": "HSE Area Team Member"
+  },
+  {
+   "fieldname": "approval_section",
+   "fieldtype": "Section Break",
+   "label": "Approval"
+  },
+  {
+   "fieldname": "recommendations",
+   "fieldtype": "Small Text",
+   "label": "Approver's Recommendations",
+   "description": "Required when the approver sends the area back"
+  },
+  {
+   "fieldname": "workflow_state",
+   "fieldtype": "Link",
+   "label": "Approval Status",
+   "options": "Workflow State",
+   "hidden": 1,
+   "no_copy": 1,
+   "read_only": 1,
+   "allow_on_submit": 1
   }
  ],
  "index_web_pages_for_search": 1,

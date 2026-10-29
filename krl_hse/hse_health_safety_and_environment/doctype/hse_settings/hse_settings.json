@@ -13,6 +13,8 @@
   "default_number_format",
   "codes_section",
   "document_codes",
+  "workflow_section",
+  "sent_back_state",
   "access_section",
   "access_help",
   "all_branch_roles",
@@ -78,6 +80,19 @@
    "fieldtype": "Table",
    "label": "Document Codes",
    "options": "HSE Document Code"
+  },
+  {
+   "fieldname": "workflow_section",
+   "fieldtype": "Section Break",
+   "label": "Approval"
+  },
+  {
+   "fieldname": "sent_back_state",
+   "fieldtype": "Data",
+   "label": "Workflow State That Means Sent Back",
+   "default": "Sent Back",
+   "reqd": 1,
+   "description": "When a record moves to this state the approver must give recommendations"
   },
   {
    "fieldname": "access_section",
