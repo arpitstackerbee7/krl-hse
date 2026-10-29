@@ -73,15 +73,17 @@ Use two sites, and never mix them.
 bench --site krl.test run-tests --app krl_hse
 
 # demo data (dev only, never runs on install; every record is named TEST ...)
-bench --site demo.test execute krl_hse.demo.seed.load --kwargs "{'password': '<local password>'}"
-bench --site demo.test execute krl_hse.demo.seed.clear              # archive
+# Branches are never created. Name the branches already on the site and the code for each:
+bench --site demo.test execute krl_hse.demo.seed.load --kwargs \
+  "{'password': '<local password>', 'branches': {'<branch name>': 'HO', '<branch name>': 'T'}, 'head_office': '<branch name>'}"
+bench --site demo.test execute krl_hse.demo.seed.load            # again, once branches have their codes
+bench --site demo.test execute krl_hse.demo.seed.clear           # archive
 bench --site demo.test execute krl_hse.demo.seed.clear --kwargs "{'delete': 1}"   # delete
 ```
 
-Demo users are `test.<key>@krl-demo.example`, one per role. The demo seed needs the branch names
-below to exist, and it prints a line before it gives an existing Branch its HSE Branch Code:
-`Head Office (HO)`, `KRL - KJBPSL (JSW) Jharsuguda (J)`, `KRL - VSP (RINL) (V)`, `Athagarh (T)`.
-Branch codes J, V, T and HO are assumptions until KRL confirms them.
+Demo users are `test.<key>@krl-demo.example`, one per role. The sample people and records refer to
+branches by code: J and T carry the two sample jobs, and anything whose code is not on the site is skipped
+(the load says so). Branch codes J, V, T and HO are assumptions until KRL confirms them.
 
 ## Putting a phase on the KRL demo site
 
@@ -93,7 +95,8 @@ Nothing touches the KRL site until the project owner says "go". Before that:
 
 Then deploy the phase from the `develop` branch. On the first deploy, KRL needs to:
 
-* Approve the HSE Branch Code on the three existing branches, and a new Head Office branch.
+* Approve the HSE Branch Code of each existing branch, and which one is the Head Office (on the KRL demo
+  site: KOLKATA = HO, KTSA - Athagarh = T, KJBPSL - Jharsuguda = J).
 * Create Employee records for floor staff who will appear in area teams.
 
 Employee and Customer select permissions are not granted by this app.

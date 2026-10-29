@@ -14,41 +14,42 @@ Rules it follows:
   * `clear` archives by default (cancels work orders, disables areas and users). It deletes
     only when called with delete=1, which is for KRL-approved clean-up before go-live.
 
-Branch names below are the ones on KRL's demo site. Branch codes follow the plan: J, V, T and
-HO until KRL confirms.
+Branches are never created here and no branch name is fixed in this file. The branches already on
+the site are given their HSE Branch Code by the person running the load:
+
+	bench --site <site> execute krl_hse.demo.seed.load --kwargs \\
+		"{'branches': {'<branch name>': '<code>', ...}, 'head_office': '<branch name>'}"
+
+If every branch already has its code, `load` needs no arguments. The sample people and records refer
+to branches by code. J and T carry the two sample jobs. A person or record whose code is not on the
+site is skipped, and the load says so.
 """
+
+import json
 
 import frappe
 
 DOMAIN = "krl-demo.example"
 
-BRANCHES = [
-	# (branch name, HSE code, head office?)
-	("Head Office", "HO", 1),
-	("KRL - KJBPSL (JSW) Jharsuguda", "J", 0),
-	("KRL - VSP (RINL)", "V", 0),
-	("Athagarh", "T", 0),
-]
-
-# One dummy person per role. (key, role, first name, branches or None for all)
+# One dummy person per role. (key, role, first name, branch codes, or None for all branches)
 USERS = [
 	("director", "Director", "TEST Director", None),
 	("hse_head", "HSE Head", "TEST HSE Head", None),
 	("ho_hse", "HO HSE Team", "TEST HO HSE Member", None),
-	("bhse_t", "Branch HSE Head", "TEST Athagarh HSE Head", ["Athagarh"]),
-	("bhse_j", "Branch HSE Head", "TEST Jharsuguda HSE Head", ["KRL - KJBPSL (JSW) Jharsuguda"]),
-	("officer_t", "HSE Officer", "TEST Athagarh HSE Officer", ["Athagarh"]),
-	("hse_sup_t", "HSE Supervisor", "TEST Athagarh HSE Supervisor", ["Athagarh"]),
-	("bhead_t", "Branch Head", "TEST Athagarh Branch Head", ["Athagarh"]),
-	("bhead_j", "Branch Head", "TEST Jharsuguda Branch Head", ["KRL - KJBPSL (JSW) Jharsuguda"]),
-	("dept_t", "Branch Department Head", "TEST Athagarh Maintenance Head", ["Athagarh"]),
-	("site_sup_t", "Site Supervisor", "TEST Athagarh Site Supervisor", ["Athagarh"]),
-	("store_t", "Store In-charge", "TEST Athagarh Store In-charge", ["Athagarh"]),
+	("bhse_t", "Branch HSE Head", "TEST Athagarh HSE Head", ["T"]),
+	("bhse_j", "Branch HSE Head", "TEST Jharsuguda HSE Head", ["J"]),
+	("officer_t", "HSE Officer", "TEST Athagarh HSE Officer", ["T"]),
+	("hse_sup_t", "HSE Supervisor", "TEST Athagarh HSE Supervisor", ["T"]),
+	("bhead_t", "Branch Head", "TEST Athagarh Branch Head", ["T"]),
+	("bhead_j", "Branch Head", "TEST Jharsuguda Branch Head", ["J"]),
+	("dept_t", "Branch Department Head", "TEST Athagarh Maintenance Head", ["T"]),
+	("site_sup_t", "Site Supervisor", "TEST Athagarh Site Supervisor", ["T"]),
+	("store_t", "Store In-charge", "TEST Athagarh Store In-charge", ["T"]),
 ]
 
 WORK_ORDERS = [
 	{
-		"branch": "KRL - KJBPSL (JSW) Jharsuguda",
+		"branch": "J",
 		"job_code": "TEST-SLAG",
 		"work_title": "TEST Slag handling at the client plant",
 		"client_name": "TEST Client Steel Limited",
@@ -81,7 +82,7 @@ WORK_ORDERS = [
 		],
 	},
 	{
-		"branch": "Athagarh",
+		"branch": "T",
 		"job_code": "TEST-ATH",
 		"work_title": "TEST Material handling at Athagarh",
 		"client_name": "TEST Client Metals Limited",
@@ -96,9 +97,9 @@ WORK_ORDERS = [
 ]
 
 AREAS = [
-	# (branch, job code of its work or None, area name, division type, details, leader, members)
+	# (branch code, job code of its work or None, area name, division type, details, leader, members)
 	(
-		"Athagarh",
+		"T",
 		"TEST-ATH",
 		"TEST Loading Yard",
 		"Location",
@@ -107,7 +108,7 @@ AREAS = [
 		["TEST Yard Member A", "TEST Yard Member B"],
 	),
 	(
-		"Athagarh",
+		"T",
 		"TEST-ATH",
 		"TEST Workshop",
 		"Work",
@@ -116,7 +117,7 @@ AREAS = [
 		["TEST Workshop Member A", "TEST Workshop Member B"],
 	),
 	(
-		"KRL - KJBPSL (JSW) Jharsuguda",
+		"J",
 		"TEST-SLAG",
 		"TEST Slag Pit",
 		"Location",
@@ -131,37 +132,75 @@ def email_for(key):
 	return f"test.{key}@{DOMAIN}"
 
 
-def load(password=None):
-	"""Create the demo data. Safe to run twice: existing TEST records are skipped."""
+def load(password=None, branches=None, head_office=None):
+	"""Create the demo data. Safe to run twice: existing TEST records are skipped.
+
+	branches     {branch name: HSE Branch Code} for branches that do not have their code yet. A branch that
+	             already has a code keeps it. Branches are never created here.
+	head_office  the name of the head office branch, among those in `branches`.
+	"""
 	frappe.flags.in_demo_seed = True
-	_ensure_branches()
-	_ensure_users(password)
-	_ensure_work_orders()
-	_ensure_areas()
+	sites = _prepare_branches(branches, head_office)
+	if not sites:
+		return
+
+	_ensure_users(password, sites)
+	_ensure_work_orders(sites)
+	_ensure_areas(sites)
 	frappe.db.commit()
-	print(f"Demo data loaded. Test logins end with @{DOMAIN}.")
+	print(f"Demo data loaded for branches {', '.join(f'{c} ({n})' for c, n in sorted(sites.items()))}.")
+	print(f"Test logins end with @{DOMAIN}.")
 
 
-def _ensure_branches():
-	for name, code, head_office in BRANCHES:
-		if frappe.db.exists("Branch", name):
+def _prepare_branches(branches, head_office):
+	"""Give the named branches their HSE Branch Code and return {code: branch name} for the site."""
+	if isinstance(branches, str):
+		branches = json.loads(branches)
+
+	if branches:
+		missing = [name for name in branches if not frappe.db.exists("Branch", name)]
+		if missing:
+			print(f"These branches are not on this site, so nothing was loaded: {', '.join(missing)}.")
+			return None
+		if head_office and head_office not in branches:
+			print(f"The head office {head_office} is not among the branches given, so nothing was loaded.")
+			return None
+
+		for name, code in branches.items():
 			current = frappe.db.get_value("Branch", name, "hse_branch_code")
 			if current and current != code:
 				print(f"Branch {name} already has code {current}; leaving it.")
 				continue
+			clash = frappe.db.get_value("Branch", {"hse_branch_code": code, "name": ["!=", name]}, "name")
+			if clash:
+				print(f"Code {code} is already used by branch {clash}; {name} is left without it.")
+				continue
 			if not current:
-				print(f"Giving existing branch {name} the HSE Branch Code {code}.")
+				print(f"Giving branch {name} the HSE Branch Code {code}.")
 				frappe.db.set_value(
-					"Branch", name, {"hse_branch_code": code, "hse_is_head_office": head_office}
+					"Branch", name, {"hse_branch_code": code, "hse_is_head_office": int(name == head_office)}
 				)
+
+	rows = frappe.get_all(
+		"Branch", filters={"hse_branch_code": ["is", "set"]}, fields=["name", "hse_branch_code"]
+	)
+	if not rows:
+		names = ", ".join(frappe.get_all("Branch", pluck="name")) or "none"
+		print(
+			"No branch has an HSE Branch Code yet, so nothing was loaded.\n"
+			f"Branches on this site: {names}.\n"
+			"Run again with branches={'<branch name>': '<code>', ...} and head_office='<branch name>'."
+		)
+		return None
+	return {row.hse_branch_code: row.name for row in rows}
+
+
+def _ensure_users(password, sites):
+	for key, role, first_name, codes in USERS:
+		missing = [c for c in codes or [] if c not in sites]
+		if missing:
+			print(f"Skipping {first_name}: no branch with code {', '.join(missing)} on this site.")
 			continue
-		frappe.get_doc(
-			{"doctype": "Branch", "branch": name, "hse_branch_code": code, "hse_is_head_office": head_office}
-		).insert(ignore_permissions=True)
-
-
-def _ensure_users(password):
-	for key, role, first_name, branches in USERS:
 		user_email = email_for(key)
 		if frappe.db.exists("User", user_email):
 			continue
@@ -179,25 +218,37 @@ def _ensure_users(password):
 			user.new_password = password
 		user.flags.no_welcome_mail = True
 		user.insert(ignore_permissions=True)
-		for branch in branches or []:
+		for code in codes or []:
 			frappe.get_doc(
-				{"doctype": "User Permission", "user": user_email, "allow": "Branch", "for_value": branch}
+				{
+					"doctype": "User Permission",
+					"user": user_email,
+					"allow": "Branch",
+					"for_value": sites[code],
+				}
 			).insert(ignore_permissions=True)
 
 
-def _ensure_work_orders():
+def _ensure_work_orders(sites):
 	for values in WORK_ORDERS:
+		if values["branch"] not in sites:
+			print(f"Skipping work order {values['job_code']}: no branch with code {values['branch']}.")
+			continue
 		if frappe.db.exists("HSE Work Order", {"job_code": values["job_code"]}):
 			continue
-		doc = frappe.get_doc({"doctype": "HSE Work Order", **values})
+		doc = frappe.get_doc({"doctype": "HSE Work Order", **values, "branch": sites[values["branch"]]})
 		for line in doc.service_lines:
 			if line.uom and not frappe.db.exists("UOM", line.uom):
 				line.uom = None
 		doc.insert(ignore_permissions=True)
 
 
-def _ensure_areas():
-	for branch, job, name, division, details, leader, members in AREAS:
+def _ensure_areas(sites):
+	for code, job, name, division, details, leader, members in AREAS:
+		if code not in sites:
+			print(f"Skipping area {name}: no branch with code {code}.")
+			continue
+		branch = sites[code]
 		work_order = frappe.db.get_value("HSE Work Order", {"job_code": job}, "name") if job else None
 		if frappe.db.exists("HSE Workplace Area", {"branch": branch, "area_name": name}):
 			continue
