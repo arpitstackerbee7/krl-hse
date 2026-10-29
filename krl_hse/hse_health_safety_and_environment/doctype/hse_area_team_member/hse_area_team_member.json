@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "team_role",
+  "employee",
+  "member_name",
+  "designation",
+  "category",
+  "from_date",
+  "to_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "team_role",
+   "fieldtype": "Link",
+   "label": "Team Role",
+   "options": "HSE Area Team Role",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "member_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 3,
+   "fetch_from": "employee.employee_name",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation",
+   "in_list_view": 1,
+   "columns": 2,
+   "fetch_from": "employee.designation",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "HSE Worker Category",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From",
+   "reqd": 1,
+   "default": "Today",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To",
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "Leave empty while the member is current"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Area Team Member",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1
+}

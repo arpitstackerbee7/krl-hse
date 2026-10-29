@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "service_code",
+  "description",
+  "qty",
+  "uom",
+  "working_height_m",
+  "completion_date",
+  "column_break_1",
+  "working_condition_class",
+  "normal_ppe_provided_by",
+  "special_ppe_provided_by",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "service_code",
+   "fieldtype": "Data",
+   "label": "Service Code",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Service Description",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 3
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "Quantity",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "options": "UOM",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "working_height_m",
+   "fieldtype": "Float",
+   "label": "Working Height (m)",
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "Height at which the service is done, in metres. 0 if none."
+  },
+  {
+   "fieldname": "completion_date",
+   "fieldtype": "Date",
+   "label": "Completion Date"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "working_condition_class",
+   "fieldtype": "Data",
+   "label": "Working Condition Severity Class"
+  },
+  {
+   "fieldname": "normal_ppe_provided_by",
+   "fieldtype": "Data",
+   "label": "Normal PPE Provided By"
+  },
+  {
+   "fieldname": "special_ppe_provided_by",
+   "fieldtype": "Data",
+   "label": "Special PPE Provided By"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Work Order Service Line",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1
+}

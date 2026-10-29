@@ -90,10 +90,16 @@ class TestNumbering(IntegrationTestCase):
 		)
 
 	def test_preview_does_not_use_up_a_number(self):
-		self.assertEqual(preview_number("ToDo", "TEST Athagarh", on_date="2026-10-29"), "KRL/TD/T/2026-27/0001")
-		self.assertEqual(preview_number("ToDo", "TEST Athagarh", on_date="2026-10-29"), "KRL/TD/T/2026-27/0001")
+		self.assertEqual(
+			preview_number("ToDo", "TEST Athagarh", on_date="2026-10-29"), "KRL/TD/T/2026-27/0001"
+		)
+		self.assertEqual(
+			preview_number("ToDo", "TEST Athagarh", on_date="2026-10-29"), "KRL/TD/T/2026-27/0001"
+		)
 		make_document_number("ToDo", "TEST Athagarh", on_date="2026-10-29")
-		self.assertEqual(preview_number("ToDo", "TEST Athagarh", on_date="2026-10-29"), "KRL/TD/T/2026-27/0002")
+		self.assertEqual(
+			preview_number("ToDo", "TEST Athagarh", on_date="2026-10-29"), "KRL/TD/T/2026-27/0002"
+		)
 
 	def test_missing_document_code_is_refused(self):
 		with self.assertRaises(frappe.ValidationError):

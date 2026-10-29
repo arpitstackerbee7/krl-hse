@@ -17,9 +17,9 @@ class HSESettings(Document):
 	def validate_default_format(self):
 		if "{seq}" not in (self.default_number_format or ""):
 			frappe.throw(
-				_("The default number format must include {0}, which is where the running number goes.").format(
-					frappe.bold("{seq}")
-				)
+				_(
+					"The default number format must include {0}, which is where the running number goes."
+				).format(frappe.bold("{seq}"))
 			)
 		check_format(self.default_number_format)
 

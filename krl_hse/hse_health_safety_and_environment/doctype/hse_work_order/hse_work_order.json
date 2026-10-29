@@ -1,0 +1,318 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "branch",
+  "job_code",
+  "column_break_1",
+  "work_title",
+  "status",
+  "client_section",
+  "customer",
+  "client_name",
+  "plant_name",
+  "column_break_2",
+  "plant_address",
+  "order_section",
+  "po_number",
+  "po_date",
+  "vendor_code",
+  "column_break_3",
+  "start_date",
+  "completion_date",
+  "reference_doctype",
+  "reference_name",
+  "services_section",
+  "service_lines",
+  "contacts_section",
+  "contacts",
+  "terms_section",
+  "client_safety_terms"
+ ],
+ "fields": [
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "The branch that carries out the work"
+  },
+  {
+   "fieldname": "job_code",
+   "fieldtype": "Data",
+   "label": "Job Code",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "Short name of the job. It goes into the number of every record for this work, for example LRF."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "work_title",
+   "fieldtype": "Data",
+   "label": "Name of Work",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nOn Hold\nCompleted\nCancelled",
+   "default": "Active",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "client_section",
+   "fieldtype": "Section Break",
+   "label": "Client"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "description": "Optional. Link the ERPNext customer once the client is set up."
+  },
+  {
+   "fieldname": "client_name",
+   "fieldtype": "Data",
+   "label": "Client Name",
+   "reqd": 1,
+   "in_standard_filter": 1,
+   "fetch_from": "customer.customer_name",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "plant_name",
+   "fieldtype": "Data",
+   "label": "Client Plant or Site",
+   "in_standard_filter": 1,
+   "description": "For example the plant where the work is done"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "plant_address",
+   "fieldtype": "Small Text",
+   "label": "Plant Address"
+  },
+  {
+   "fieldname": "order_section",
+   "fieldtype": "Section Break",
+   "label": "Client Order"
+  },
+  {
+   "fieldname": "po_number",
+   "fieldtype": "Data",
+   "label": "Order Number",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "po_date",
+   "fieldtype": "Date",
+   "label": "Order Date"
+  },
+  {
+   "fieldname": "vendor_code",
+   "fieldtype": "Data",
+   "label": "Vendor Code",
+   "description": "The client's code for KRL"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Work Starts"
+  },
+  {
+   "fieldname": "completion_date",
+   "fieldtype": "Date",
+   "label": "Work Completes"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "ERP Reference Type",
+   "options": "DocType",
+   "description": "Optional. Set when the order also exists in ERPNext, for example as a Sales Order or Project."
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "ERP Reference",
+   "options": "reference_doctype"
+  },
+  {
+   "fieldname": "services_section",
+   "fieldtype": "Section Break",
+   "label": "Services"
+  },
+  {
+   "fieldname": "service_lines",
+   "fieldtype": "Table",
+   "label": "Service Lines",
+   "options": "HSE Work Order Service Line"
+  },
+  {
+   "fieldname": "contacts_section",
+   "fieldtype": "Section Break",
+   "label": "People on This Work"
+  },
+  {
+   "fieldname": "contacts",
+   "fieldtype": "Table",
+   "label": "KRL Management and Client Contacts",
+   "options": "HSE Work Order Contact"
+  },
+  {
+   "fieldname": "terms_section",
+   "fieldtype": "Section Break",
+   "label": "Client Safety Terms"
+  },
+  {
+   "fieldname": "client_safety_terms",
+   "fieldtype": "Text Editor",
+   "label": "Client Safety Terms",
+   "description": "Safety terms of the client order, for example working height or minimum age of workers"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Work Order",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  },
+  {
+   "role": "HSE Head",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "HO HSE Team",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Branch HSE Head",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "HSE Officer",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "Branch Head",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Director",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "HSE Supervisor",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "Branch Department Head",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Site Supervisor",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Store In-charge",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Employee",
+   "read": 0,
+   "select": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "work_title",
+ "show_title_field_in_link": 1,
+ "search_fields": "job_code,client_name,po_number",
+ "track_changes": 1,
+ "allow_import": 1
+}

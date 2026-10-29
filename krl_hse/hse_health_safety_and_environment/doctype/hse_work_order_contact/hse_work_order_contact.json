@@ -1,0 +1,86 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "contact_role",
+  "party",
+  "employee",
+  "contact_name",
+  "designation",
+  "phone",
+  "email"
+ ],
+ "fields": [
+  {
+   "fieldname": "contact_role",
+   "fieldtype": "Link",
+   "label": "Role",
+   "options": "HSE Contact Role",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Data",
+   "label": "Belongs To",
+   "fetch_from": "contact_role.party",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2,
+   "fetch_from": "employee.employee_name",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation",
+   "in_list_view": 1,
+   "columns": 2,
+   "fetch_from": "employee.designation",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "options": "Phone",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Work Order Contact",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1
+}

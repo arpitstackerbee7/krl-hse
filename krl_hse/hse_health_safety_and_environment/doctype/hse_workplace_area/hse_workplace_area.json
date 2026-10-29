@@ -1,0 +1,215 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "branch",
+  "work_order",
+  "column_break_1",
+  "area_name",
+  "division_type",
+  "team_leader",
+  "disabled",
+  "details_section",
+  "location_details",
+  "team_section",
+  "team"
+ ],
+ "fields": [
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "work_order",
+   "fieldtype": "Link",
+   "label": "Work",
+   "options": "HSE Work Order",
+   "in_standard_filter": 1,
+   "description": "Optional. Set when the area belongs to one work order."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "area_name",
+   "fieldtype": "Data",
+   "label": "Area Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "division_type",
+   "fieldtype": "Select",
+   "label": "Divided By",
+   "options": "Location\nWork",
+   "default": "Location",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "team_leader",
+   "fieldtype": "Data",
+   "label": "Current Team Leader",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "location_details",
+   "fieldtype": "Small Text",
+   "label": "Details"
+  },
+  {
+   "fieldname": "team_section",
+   "fieldtype": "Section Break",
+   "label": "Area Team"
+  },
+  {
+   "fieldname": "team",
+   "fieldtype": "Table",
+   "label": "Team",
+   "options": "HSE Area Team Member"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-29 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HSE Health Safety and Environment",
+ "name": "HSE Workplace Area",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  },
+  {
+   "role": "HSE Head",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "HO HSE Team",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Branch HSE Head",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "export": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "HSE Officer",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "Branch Head",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Director",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "HSE Supervisor",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "print": 1
+  },
+  {
+   "role": "Branch Department Head",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Site Supervisor",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Store In-charge",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  },
+  {
+   "role": "Employee",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "area_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "area_name",
+ "track_changes": 1,
+ "allow_import": 1
+}
