@@ -63,7 +63,7 @@ WORK_ORDERS = [
 				"service_code": "TEST-S1",
 				"description": "TEST Handling of furnace slag",
 				"qty": 340000,
-				"uom": "Tonne",
+				"uom": "Tonne",  # dropped by _ensure_work_orders if this UOM does not exist on the site
 				"working_height_m": 0,
 			},
 			{
@@ -189,7 +189,11 @@ def _ensure_work_orders():
 	for values in WORK_ORDERS:
 		if frappe.db.exists("HSE Work Order", {"job_code": values["job_code"]}):
 			continue
-		frappe.get_doc({"doctype": "HSE Work Order", **values}).insert(ignore_permissions=True)
+		doc = frappe.get_doc({"doctype": "HSE Work Order", **values})
+		for line in doc.service_lines:
+			if line.uom and not frappe.db.exists("UOM", line.uom):
+				line.uom = None
+		doc.insert(ignore_permissions=True)
 
 
 def _ensure_areas():

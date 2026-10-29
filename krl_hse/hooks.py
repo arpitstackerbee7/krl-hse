@@ -35,7 +35,7 @@ app_license = "custom"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/krl_hse/css/krl_hse.css"
-# app_include_js = "/assets/krl_hse/js/krl_hse.js"
+app_include_js = "/assets/krl_hse/js/branch_default.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/krl_hse/css/krl_hse.css"
@@ -159,6 +159,8 @@ has_permission = {doctype: "krl_hse.utils.branch_access.has_permission" for doct
 # Document Events
 # ---------------
 # Hook on document methods and events
+
+boot_session = "krl_hse.utils.boot.boot_session"
 
 doc_events = {
 	"Branch": {"validate": "krl_hse.utils.branch.validate_branch"},

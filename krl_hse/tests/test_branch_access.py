@@ -237,3 +237,13 @@ class TestPickingABranch(IntegrationTestCase):
 	def test_hr_keeps_its_own_branch_permissions(self):
 		roles = set(frappe.get_all("Custom DocPerm", filters={"parent": "Branch", "write": 1}, pluck="role"))
 		self.assertTrue({"HR Manager", "HR User"} <= roles)
+
+
+class TestBootInfo(IntegrationTestCase):
+	def test_browser_gets_the_list_of_branch_doctypes(self):
+		from krl_hse.utils.boot import boot_session
+
+		bootinfo = frappe._dict()
+		boot_session(bootinfo)
+		self.assertEqual(set(bootinfo.hse_branch_doctypes), set(frappe.get_hooks("hse_branch_doctypes")))
+		self.assertIn("HSE Workplace Area", bootinfo.hse_branch_doctypes)
