@@ -19,6 +19,7 @@
   "access_help",
   "all_branch_roles",
   "defaults_loaded",
+  "site_rights_loaded",
   "seeded_doctypes"
  ],
  "fields": [
@@ -115,6 +116,13 @@
    "fieldname": "defaults_loaded",
    "fieldtype": "Check",
    "label": "Defaults Loaded",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "site_rights_loaded",
+   "fieldtype": "Check",
+   "label": "Site Rights Loaded",
    "read_only": 1,
    "hidden": 1
   },

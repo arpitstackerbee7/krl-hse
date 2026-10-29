@@ -1,0 +1,7 @@
+{
+ "_comment": "Rights on ERPNext document types that HSE roles need to run HSE. Given once, the first time the app is set up, and then they belong to KRL: change them in Role Permission Manager. Branch is where sites are managed: these head office roles can create and edit a site but not delete it (a site with HSE history is disabled instead).",
+ "Branch": {
+  "roles": ["Director", "HSE Head", "HO HSE Team"],
+  "rights": ["write", "create"]
+ }
+}

@@ -28,7 +28,25 @@ class HSEDocument(Document):
 		self.name = make_document_number(self.doctype, self.branch, job=job, on_date=on_date)
 
 	def before_save(self):
+		self.check_branch_is_open()
 		self.check_send_back_recommendations()
+
+	def check_branch_is_open(self):
+		"""No new record for a site that has been disabled for HSE.
+
+		Records that already exist stay editable, so history is not locked. The check applies when a
+		record is made, or when its branch is changed to a disabled one.
+		"""
+		if not self.branch or not (self.is_new() or self.has_value_changed("branch")):
+			return
+
+		if frappe.db.get_value("Branch", self.branch, "hse_disabled"):
+			frappe.throw(
+				_("Branch {0} is disabled for HSE, so no new record can be made for it.").format(
+					frappe.bold(self.branch)
+				),
+				title=_("Branch disabled"),
+			)
 
 	def check_send_back_recommendations(self):
 		"""The approver must say why a record is sent back (BRD 6.9.1: sent back with recommendations).

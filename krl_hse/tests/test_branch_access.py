@@ -229,7 +229,8 @@ class TestPickingABranch(IntegrationTestCase):
 		self.assertTrue({"TEST Athagarh", "TEST Jharsuguda"} <= found)
 
 	def test_picking_does_not_allow_editing_a_branch(self):
-		frappe.set_user(email("pick_ho"))
+		# Only the head office roles may edit a site (see test_sites). A branch role may just pick one.
+		frappe.set_user(email("pick_t"))
 		self.assertTrue(frappe.has_permission("Branch", "select"))
 		self.assertFalse(frappe.has_permission("Branch", "write"))
 		self.assertFalse(frappe.has_permission("Branch", "create"))

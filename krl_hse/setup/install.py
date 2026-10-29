@@ -24,6 +24,7 @@ BRANCH_FIELDS = {
 			"fieldname": "hse_branch_code",
 			"fieldtype": "Data",
 			"label": "HSE Branch Code",
+			"in_list_view": 1,
 			"insert_after": "hse_section",
 			"description": "Short code used in HSE document numbers, for example J. Must be different for every branch.",
 		},
@@ -31,8 +32,33 @@ BRANCH_FIELDS = {
 			"fieldname": "hse_is_head_office",
 			"fieldtype": "Check",
 			"label": "Head Office",
+			"in_list_view": 1,
 			"insert_after": "hse_branch_code",
 			"description": "Tick for the head office. Head office records are not tied to a plant.",
+		},
+		{
+			"fieldname": "hse_disabled",
+			"fieldtype": "Check",
+			"label": "Disabled for HSE",
+			"in_list_view": 1,
+			"in_standard_filter": 1,
+			"insert_after": "hse_is_head_office",
+			"description": (
+				"Tick when HSE work at this site has ended. It no longer shows when choosing a branch and no "
+				"new HSE record can be made for it. Records already made stay as they are."
+			),
+		},
+		{
+			"fieldname": "hse_users_section",
+			"fieldtype": "Section Break",
+			"label": "People With Access",
+			"insert_after": "hse_disabled",
+		},
+		{
+			"fieldname": "hse_users_html",
+			"fieldtype": "HTML",
+			"label": "People With Access",
+			"insert_after": "hse_users_section",
 		},
 	]
 }
@@ -52,6 +78,7 @@ def ensure_setup():
 	ensure_link_permissions()
 	seed_masters()
 	ensure_settings_defaults()
+	ensure_manage_permissions()
 	ensure_workflows()
 	frappe.db.commit()
 
@@ -91,6 +118,33 @@ def ensure_link_permissions():
 			if frappe.db.exists(table, {"parent": doctype, "role": role, "permlevel": 0}):
 				continue
 			add_permission(doctype, role, 0, "select")
+
+
+def ensure_manage_permissions():
+	"""Give the head office roles the rights to manage sites (see manage_permissions.json), once.
+
+	A flag in HSE Settings records that it was done, so a right KRL later takes away is not given back.
+	"""
+	from frappe.permissions import update_permission_property
+
+	if not frappe.db.exists("DocType", "HSE Settings"):
+		return
+
+	settings = frappe.get_doc("HSE Settings")
+	if settings.site_rights_loaded:
+		return
+
+	for doctype, entry in _load("manage_permissions.json").items():
+		if doctype.startswith("_") or not frappe.db.exists("DocType", doctype):
+			continue
+		for role in entry["roles"]:
+			if not frappe.db.exists("Role", role):
+				continue
+			for right in entry["rights"]:
+				update_permission_property(doctype, role, 0, right, 1)
+
+	settings.site_rights_loaded = 1
+	settings.save(ignore_permissions=True)
 
 
 def seed_masters():

@@ -6,6 +6,7 @@ frappe.ui.form.on("HSE Settings", {
 	},
 
 	refresh(frm) {
+		frm.add_custom_button(__("Manage Sites"), () => frappe.set_route("List", "Branch"));
 		frm.add_custom_button(__("Preview a Number"), () => {
 			const doctypes = (frm.doc.document_codes || []).map((row) => row.reference_doctype);
 			frappe.prompt(

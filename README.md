@@ -34,9 +34,24 @@ It only adds what is missing and never overwrites an edit KRL has made:
   HO HSE Team), plus System Manager and Administrator, see every branch.
 * A branch user who has no branch assigned sees nothing.
 * A user limited to exactly one branch gets that branch filled in on every new HSE document
-  (`krl_hse/public/js/branch_default.js`).
+  (`krl_hse/public/js/hse_branch.js`).
 * Every HSE document type with a `branch` field must be listed in `hse_branch_doctypes` in
   `hooks.py`. A test fails if one is missed.
+
+### Managing sites
+
+A site is an ERPNext Branch record. There is no limit on how many. Use **Manage Sites** on HSE Settings
+(or the Branch list) to work with them.
+
+* Director, HSE Head and HO HSE Team can create and edit a Branch, but not delete it. HR Manager, HR User
+  and System Manager keep their usual rights. The head office roles get these rights once, at first setup,
+  and after that KRL can change them in Role Permission Manager.
+* Every site needs an HSE Branch Code (letters and digits, different for each site). Tick **Head Office**
+  on the head office.
+* **Disabled for HSE** retires a site: it is no longer offered when choosing a branch and no new HSE
+  record can be made for it. Records already made stay as they are. Use this rather than deleting.
+* The **People With Access** list on the Branch form shows who has been given the site, with buttons to
+  give or remove it. Roles that see every branch are not listed.
 
 ### Document numbers
 
@@ -54,7 +69,7 @@ Use two sites, and never mix them.
 | `demo.test` | Demo data and checking the screens in a browser. |
 
 ```bash
-# tests (65 at the end of Phase 1)
+# tests (78 so far)
 bench --site krl.test run-tests --app krl_hse
 
 # demo data (dev only, never runs on install; every record is named TEST ...)

@@ -35,7 +35,7 @@ required_apps = ["erpnext"]
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/krl_hse/css/krl_hse.css"
-app_include_js = "/assets/krl_hse/js/branch_default.js"
+app_include_js = "/assets/krl_hse/js/hse_branch.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/krl_hse/css/krl_hse.css"
@@ -161,6 +161,8 @@ has_permission = {doctype: "krl_hse.utils.branch_access.has_permission" for doct
 # Hook on document methods and events
 
 boot_session = "krl_hse.utils.boot.boot_session"
+
+doctype_js = {"Branch": "public/js/branch_form.js"}
 
 doc_events = {
 	"Branch": {"validate": "krl_hse.utils.branch.validate_branch"},
