@@ -49,6 +49,7 @@ def after_migrate():
 def ensure_setup():
 	create_custom_fields(BRANCH_FIELDS, update=True)
 	ensure_roles()
+	ensure_link_permissions()
 	seed_masters()
 	ensure_settings_defaults()
 	ensure_workflows()
@@ -73,6 +74,23 @@ def ensure_roles():
 				"is_custom": 1,
 			}
 		).insert(ignore_permissions=True)
+
+
+def ensure_link_permissions():
+	"""Let HSE roles pick records of ERPNext types (see link_permissions.json) without opening them."""
+	from frappe.permissions import add_permission
+
+	for doctype, roles in _load("link_permissions.json").items():
+		if doctype.startswith("_") or not frappe.db.exists("DocType", doctype):
+			continue
+
+		table = "Custom DocPerm" if frappe.db.exists("Custom DocPerm", {"parent": doctype}) else "DocPerm"
+		for role in roles:
+			if not frappe.db.exists("Role", role):
+				continue
+			if frappe.db.exists(table, {"parent": doctype, "role": role, "permlevel": 0}):
+				continue
+			add_permission(doctype, role, 0, "select")
 
 
 def seed_masters():

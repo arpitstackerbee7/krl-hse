@@ -10,7 +10,7 @@ frappe.ui.form.on("HSE Settings", {
 			const doctypes = (frm.doc.document_codes || []).map((row) => row.reference_doctype);
 			frappe.prompt(
 				[
-					{ fieldname: "doctype", label: __("Document Type"), fieldtype: "Select", options: doctypes, reqd: 1 },
+					{ fieldname: "doctype", label: __("Document Type"), fieldtype: "Select", options: doctypes, default: doctypes[0], reqd: 1 },
 					{
 						fieldname: "branch",
 						label: __("Branch"),

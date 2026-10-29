@@ -71,7 +71,7 @@
   {
    "fieldname": "details_section",
    "fieldtype": "Section Break",
-   "label": "Details"
+   "label": "About the Area"
   },
   {
    "fieldname": "location_details",

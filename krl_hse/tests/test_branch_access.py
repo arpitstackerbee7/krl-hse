@@ -197,3 +197,43 @@ class TestRolePermissions(IntegrationTestCase):
 		with self.as_employee():
 			self.assertTrue(frappe.has_permission("HSE Workplace Area", "read", doc=self.area.name))
 			self.assertFalse(frappe.has_permission("HSE Workplace Area", "write", doc=self.area.name))
+
+
+class TestPickingABranch(IntegrationTestCase):
+	"""HSE roles must be able to choose a branch in a form, but not open or change Branch records."""
+
+	@classmethod
+	def setUpClass(cls):
+		super().setUpClass()
+		make_branch("TEST Athagarh", "T")
+		make_branch("TEST Jharsuguda", "J")
+		make_user(email("pick_t"), ["Branch HSE Head"], branches=["TEST Athagarh"])
+		make_user(email("pick_ho"), ["HO HSE Team"])
+
+	def tearDown(self):
+		frappe.set_user("Administrator")
+
+	def test_branch_user_can_search_only_own_branch(self):
+		from frappe.desk.search import search_link
+
+		frappe.set_user(email("pick_t"))
+		found = {r["value"] for r in search_link("Branch", "TEST", page_length=20)}
+		self.assertIn("TEST Athagarh", found)
+		self.assertNotIn("TEST Jharsuguda", found)
+
+	def test_head_office_user_can_search_every_branch(self):
+		from frappe.desk.search import search_link
+
+		frappe.set_user(email("pick_ho"))
+		found = {r["value"] for r in search_link("Branch", "TEST", page_length=20)}
+		self.assertTrue({"TEST Athagarh", "TEST Jharsuguda"} <= found)
+
+	def test_picking_does_not_allow_editing_a_branch(self):
+		frappe.set_user(email("pick_ho"))
+		self.assertTrue(frappe.has_permission("Branch", "select"))
+		self.assertFalse(frappe.has_permission("Branch", "write"))
+		self.assertFalse(frappe.has_permission("Branch", "create"))
+
+	def test_hr_keeps_its_own_branch_permissions(self):
+		roles = set(frappe.get_all("Custom DocPerm", filters={"parent": "Branch", "write": 1}, pluck="role"))
+		self.assertTrue({"HR Manager", "HR User"} <= roles)

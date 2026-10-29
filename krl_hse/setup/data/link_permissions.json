@@ -1,0 +1,7 @@
+{
+ "_comment": "Roles that must be able to pick a record of an ERPNext document type in an HSE form without being able to open or change it (Frappe 'select' permission). Only added where the role has no permission on that type yet. ERPNext lets only HR roles search Branch, so HSE roles could not choose a branch without this.",
+ "Branch": [
+  "Director", "HSE Head", "HO HSE Team", "Branch HSE Head", "HSE Officer", "HSE Supervisor",
+  "Branch Head", "Branch Department Head", "Site Supervisor", "Store In-charge", "Employee"
+ ]
+}
