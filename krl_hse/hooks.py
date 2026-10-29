@@ -143,13 +143,18 @@ after_migrate = "krl_hse.setup.install.after_migrate"
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+# Every HSE document type that carries a `branch` field. Add each new one here, and the
+# branch rules in krl_hse/utils/branch_access.py apply to it. A test fails if one is missed.
+hse_branch_doctypes = [
+	"HSE Work Order",
+	"HSE Workplace Area",
+]
+
+permission_query_conditions = {
+	doctype: "krl_hse.utils.branch_access.permission_query_conditions" for doctype in hse_branch_doctypes
+}
+
+has_permission = {doctype: "krl_hse.utils.branch_access.has_permission" for doctype in hse_branch_doctypes}
 
 # Document Events
 # ---------------

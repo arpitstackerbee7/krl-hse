@@ -51,3 +51,28 @@ def current_fy():
 
 	settings = frappe.get_cached_doc("HSE Settings")
 	return financial_year_label(nowdate(), month_number(settings.fy_start_month), settings.fy_label_format)
+
+
+def make_user(email, roles, branches=(), first_name="TEST"):
+	"""A test user with the given roles and branch User Permissions. Never emails anyone."""
+	if frappe.db.exists("User", email):
+		frappe.delete_doc("User", email, force=True, ignore_permissions=True)
+
+	user = frappe.get_doc(
+		{
+			"doctype": "User",
+			"email": email,
+			"first_name": first_name,
+			"send_welcome_email": 0,
+			"enabled": 1,
+			"roles": [{"role": r} for r in roles],
+		}
+	)
+	user.flags.no_welcome_mail = True
+	user.insert(ignore_permissions=True)
+
+	for branch in branches:
+		frappe.get_doc(
+			{"doctype": "User Permission", "user": email, "allow": "Branch", "for_value": branch}
+		).insert(ignore_permissions=True)
+	return user
